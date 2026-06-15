@@ -15,7 +15,6 @@ def download_dataset():
     if DATA_PATH.exists():
         return pd.read_csv(DATA_PATH)
     
-    print(f'Baixando dataset de {DATA_URL}')
     df = pd.read_csv(DATA_URL)
     
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -48,3 +47,4 @@ def process_data():
         "X_test_scaled": X_test_scaled,
         "scaler": scaler,
     }
+    

@@ -1,22 +1,13 @@
-"""
-Avaliação e comparação dos modelos.
-
-Calcula as métricas (acurácia, precisão, recall, F1-score), gera todos os
-gráficos exigidos pelo trabalho (distribuição, correlação, árvore, importância
-das features, matrizes de confusão, curva de perda e comparação) e imprime
-a tabela comparativa final.
-"""
-
-from pathlib import Path
-
 import matplotlib
-
-matplotlib.use("Agg")  # gera imagens sem precisar de tela
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+
+from pathlib import Path
+from tqdm import tqdm
+from sklearn.tree import plot_tree
+
 from sklearn.metrics import (
     accuracy_score,
     confusion_matrix,
@@ -24,12 +15,12 @@ from sklearn.metrics import (
     precision_score,
     recall_score,
 )
-from sklearn.tree import plot_tree
+
+matplotlib.use("Agg")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 FIGURES_DIR = BASE_DIR / "figures"
 
-# Cores e estilo dos gráficos
 AZUL = "#2563EB"
 VERMELHO = "#DC2626"
 CLASSES = ["Sem Doença", "Com Doença"]
@@ -59,7 +50,6 @@ def calcular_metricas(modelo, X_test, y_test):
     }
 
 
-# ─── Gráficos exploratórios ───────────────────────────────────────────────────
 def grafico_distribuicao(df):
     """Figura 1 — Distribuição da variável alvo e de idade por diagnóstico."""
     fig, axes = plt.subplots(1, 2, figsize=(13, 4))
@@ -104,7 +94,6 @@ def grafico_correlacao(df):
     plt.close(fig)
 
 
-# ─── Gráficos da Árvore de Decisão ────────────────────────────────────────────
 def grafico_arvore(arvore, feature_names):
     """Figura 3 — Visualização da Árvore de Decisão."""
     fig, ax = plt.subplots(figsize=(22, 10))
@@ -157,7 +146,6 @@ def grafico_matriz_confusao_arvore(y_test, y_pred):
     plt.close(fig)
 
 
-# ─── Gráficos da Rede Neural ──────────────────────────────────────────────────
 def grafico_rede_neural(rede_neural, y_test, y_pred):
     """Figura 6 — Curva de perda (loss) e matriz de confusão da Rede Neural."""
     fig, axes = plt.subplots(1, 2, figsize=(13, 4))
@@ -186,7 +174,6 @@ def grafico_rede_neural(rede_neural, y_test, y_pred):
     plt.close(fig)
 
 
-# ─── Comparação ───────────────────────────────────────────────────────────────
 def grafico_comparacao(metricas_arvore, metricas_rede):
     """Figura 7 — Comparação gráfica das métricas entre os dois modelos."""
     nomes = ["Acurácia", "Precisão", "Recall", "F1-Score"]
