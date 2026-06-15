@@ -1,5 +1,4 @@
-from src import pipeline
-
+from src import pipeline, train_model, evaluate
 
 
 def main():
@@ -16,6 +15,18 @@ def main():
     print('\n[2/3] Treinando Modelos...')
     print("      Parte 1: Árvore de Decisão")
     print("      Parte 2: Rede Neural MLP")
+    
+    tree, nn = train_model.train_models(data)
+    train_model.save_models(tree, nn, data["scaler"])
+    print("      Modelos salvos em models/")
+    
+    print("\n[3/3] Avaliando e comparando os modelos...")
+    evaluate.avaliar_e_comparar(tree, nn, data)
+    print("\nGráficos salvos em figures/")
+ 
+    print("\n" + "=" * 56)
+    print("  Concluído!")
+    print("=" * 56)
 
 
 if __name__ == "__main__":
