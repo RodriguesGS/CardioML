@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -8,22 +9,22 @@ from .config import DATA_PATH, DATA_URL, DATA_DIR
 @dataclass
 class Dataset:
     
-    df: object
+    df: pd.DataFrame
     
-    X_train: object
-    X_test: object
+    X_train: pd.DataFrame
+    X_test: pd.DataFrame
     
-    y_train: object
-    y_test: object
+    y_train: pd.Series
+    y_test: pd.Series
     
-    X_train_scaled: object
-    X_test_scaled: object
+    X_train_scaled: np.ndarray
+    X_test_scaled: np.ndarray
     
-    scaler: object
+    scaler: StandardScaler
     
 class DataProcessor:
     
-    def download_dataset(self):
+    def load_dataset(self):
         
         if DATA_PATH.exists():
             return pd.read_csv(DATA_PATH)
@@ -36,7 +37,8 @@ class DataProcessor:
         return df
     
     def process(self):
-        df = self.download_dataset()
+        
+        df = self.load_dataset()
     
         X = df.drop('target', axis=1)
         y = df['target']

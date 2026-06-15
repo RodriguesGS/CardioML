@@ -8,6 +8,7 @@ wheels/
 
 *.csv
 *.pkl
+*.png
 
 # Virtual environments
 .venv

@@ -1,50 +1,38 @@
-import pandas as pd
-
-from pathlib import Path
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR / "data"
-DATA_PATH = DATA_DIR / "heart_disease.csv"
-DATA_URL = 'https://raw.githubusercontent.com/sharmaroshan/Heart-UCI-Dataset/master/heart.csv'
+from .dataset import DataProcessor
+from .train import ModelTrain
+from .metrics import MetricsCalculator
+from .plots import MetricsGenerator
 
 
-def download_dataset():
-    
-    if DATA_PATH.exists():
-        return pd.read_csv(DATA_PATH)
-    
-    df = pd.read_csv(DATA_URL)
-    
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    df.to_csv(DATA_PATH, index=False)
-    
-    return df
+class Pipeline:
 
-def process_data():
-    
-    df = download_dataset()
-    
-    X = df.drop('target', axis=1)
-    y = df['target']
-    
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=y
-    )
-    
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-    
-    return {
-        "df": df,
-        "X_train": X_train,
-        "X_test": X_test,
-        "y_train": y_train,
-        "y_test": y_test,
-        "X_train_scaled": X_train_scaled,
-        "X_test_scaled": X_test_scaled,
-        "scaler": scaler,
-    }
-    
+    def run(self):
+
+        dataset = DataProcessor().process()
+
+        trainer = ModelTrain(dataset)
+
+        tree = trainer.train_tree()
+        nn = trainer.train_nn()
+
+        trainer.save_models()
+
+        calculator = MetricsCalculator(dataset, tree, nn)
+
+        metrics_tree = calculator.calculate_tree()
+        metrics_nn = calculator.calculate_nn()
+
+        generator = MetricsGenerator(
+            dataset,
+            tree,
+            nn,
+            metrics_tree,
+            metrics_nn
+        )
+
+        generator.generate_all()
+
+        return {
+            "tree": metrics_tree,
+            "nn": metrics_nn
+        }
