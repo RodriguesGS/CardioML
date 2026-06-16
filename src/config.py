@@ -19,7 +19,7 @@ def stp_log(name="cardioml", level=logging.INFO):
         handler = logging.StreamHandler()
         formatter = logging.Formatter(
             "%(asctime)s | %(levelname)s | %(message)s",
-            datefmt="%H:%M:%S",
+            datefmt='%H:%M:%S',
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)

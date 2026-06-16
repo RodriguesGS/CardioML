@@ -12,11 +12,11 @@ class MetricsCalculator:
     def _evaluate(self, y_pred):
         
         return {
-            "acuracia": accuracy_score(self.dataset.y_test, y_pred),
-            "precisao": precision_score(self.dataset.y_test, y_pred),
-            "recall": recall_score(self.dataset.y_test, y_pred),
-            "f1": f1_score(self.dataset.y_test, y_pred),
-            "y_pred": y_pred,
+            'acuracia': accuracy_score(self.dataset.y_test, y_pred),
+            'precisao': precision_score(self.dataset.y_test, y_pred),
+            'recall': recall_score(self.dataset.y_test, y_pred),
+            'f1': f1_score(self.dataset.y_test, y_pred),
+            'y_pred': y_pred,
         }
 
     def calculate_tree(self):
@@ -24,3 +24,4 @@ class MetricsCalculator:
 
     def calculate_nn(self):
         return self._evaluate(self.nn.predict(self.dataset.X_test_scaled))
+    

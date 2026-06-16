@@ -49,8 +49,8 @@ class ModelTrain:
         
         steps = [self.train_tree, self.train_nn,]
         
-        progress = tqdm(steps, desc="Treinando modelos", ncols=70,
-                    bar_format="{desc} {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}")
+        progress = tqdm(steps, desc='Treinando modelos', ncols=70,
+                    bar_format='{desc} {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}')
         
         for train in progress:
             train()
@@ -64,7 +64,6 @@ class ModelTrain:
         
         MODELS_DIR.mkdir(parents=True, exist_ok=True)
         joblib.dump(self.tree, MODELS_DIR / 'decision_tree.pkl')
-        joblib.dump(self.nn, MODELS_DIR / "mlp_classifier.pkl")
-        joblib.dump(self.dataset.scaler, MODELS_DIR / "scaler.pkl")
-
+        joblib.dump(self.nn, MODELS_DIR / 'mlp_classifier.pkl')
+        joblib.dump(self.dataset.scaler, MODELS_DIR / 'scaler.pkl')
     

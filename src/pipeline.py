@@ -42,11 +42,3 @@ class Pipeline:
             self.metrics['tree'], self.metrics['nn']
         ).generate_all()
         
-    def run(self):
-        
-        self.prepare_data()
-        self.train_models()
-        self.evaluate()
-        self.generate_graphs()
-        
-        return self.metrics
