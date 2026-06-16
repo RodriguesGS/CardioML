@@ -1,35 +1,35 @@
 from src.pipeline import Pipeline
+from src.config import stp_log
 
+log = stp_log()
 
 def main():
     print('=' * 60)
     print('       Trabalho de Inteligência Artificial - 2026')
     print('=' * 60)
     
+    log.info('Iniciando pipeline\n')
     pipeline = Pipeline()
 
-    print("\n[1/4] Preparando dados...")
+    log.info('[1/4] Preparando dados...')
     dataset = pipeline.prepare_data()
-    counts = dataset.df["target"].value_counts()
+    log.info('Dados prontos')
+    counts = dataset.df['target'].value_counts()
+    log.info(f"{counts[1]} com doença / {counts[0]} sem doença\n")
 
-    print("\n[2/4] Treinando modelos...")
-    results = pipeline.run()
+    log.info("[2/4] Treinando modelos...")
+    pipeline.train_models()
+    
+    log.info("[3/4] Calculando métricas...")
+    results = pipeline.evaluate()
+    log.info(f"Árvore   - Acurácia: {(results['tree']['acuracia']) * 100:.2f}%")
+    log.info(f"Rede MLP - Acurácia: {(results['nn']['acuracia']) * 100:.2f}%\n")
 
-    print("\n[3/4] Calculando métricas...")
-    print(
-        f"      Árvore -> Acurácia: {results['tree']['acuracia']:.4f}"
-    )
-    print(
-        f"      Rede MLP -> Acurácia: {results['nn']['acuracia']:.4f}"
-    )
+    log.info("[4/4] Gerando gráficos e salvando modelos...")
+    pipeline.generate_graphs()
+    log.info("Arquivos salvos nas pastas models/ e figures/\n")
 
-    print("\n[4/4] Gerando gráficos e salvando modelos...")
-    print("      Arquivos salvos nas pastas models/ e figures/")
-
-    print("\n" + "=" * 60)
-    print("Concluído com sucesso!")
-    print("=" * 60)
-
+    log.info('Pipeline finalizada com sucesso!!')
 
 if __name__ == "__main__":
     main()

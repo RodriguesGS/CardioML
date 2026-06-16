@@ -8,7 +8,7 @@ class Pipeline:
     def __init__(self):
         
         self.dataset = None
-        self.train - None
+        self.train = None
         self.tree = None
         self.nn = None
         self.metrics = None

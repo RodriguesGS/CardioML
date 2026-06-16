@@ -47,18 +47,16 @@ class ModelTrain:
     
     def train_all(self):
         
-        steps = [
-            ("Árvore de Decisão", self.train_tree),
-            ("Rede Neural MLP", self.train_nn),
-        ]
+        steps = [self.train_tree, self.train_nn,]
         
-        progress = tqdm(steps, ncols=70,
-                            bar_format="{desc} {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}"
-                        )
+        progress = tqdm(steps, desc="Treinando modelos", ncols=70,
+                    bar_format="{desc} {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}")
         
-        for name, train in progress:
-            progress.set_description(f' Treinando {name:<20}')
+        for train in progress:
             train()
+            
+        print()   
+    
             
         return {'tree': self.tree, 'nn': self.nn}
         

@@ -65,7 +65,7 @@ class VisualizerGraphs:
         axes[1].legend()
 
         plt.tight_layout()
-        self._save(FIGURES_DIR / "grafico_distribuicao.png", dpi=150, bbox_inches="tight", facecolor="#fff")
+        fig.savefig(FIGURES_DIR / "grafico_distribuicao.png", dpi=150, bbox_inches="tight", facecolor="#fff")
         
     
     def correlation(self):     
@@ -81,7 +81,7 @@ class VisualizerGraphs:
         ax.set_title("Matriz de Correlação", fontsize=13, fontweight="bold", pad=15)
 
         plt.tight_layout()
-        self._save(FIGURES_DIR / "grafico_correlacao.png", dpi=150, bbox_inches="tight", facecolor="#fff")
+        fig.savefig(FIGURES_DIR / "grafico_correlacao.png", dpi=150, bbox_inches="tight", facecolor="#fff")
             
     def decision_tree(self):
         
@@ -95,7 +95,7 @@ class VisualizerGraphs:
         ax.set_title("Árvore de Decisão", fontsize=14, fontweight="bold", pad=15)
 
         plt.tight_layout()
-        fig._save(FIGURES_DIR / "grafico_arvore.png", dpi=120, bbox_inches="tight", facecolor="#fff")
+        fig.savefig(FIGURES_DIR / "grafico_arvore.png", dpi=120, bbox_inches="tight", facecolor="#fff")
 
     def confusion_tree(self):
         
@@ -113,7 +113,7 @@ class VisualizerGraphs:
         ax.set_xlabel("Predição")
  
         plt.tight_layout()
-        fig._save(FIGURES_DIR / "matriz_arvore.png", dpi=150, bbox_inches="tight", facecolor="#fff")
+        fig.savefig(FIGURES_DIR / "matriz_arvore.png", dpi=150, bbox_inches="tight", facecolor="#fff")
 
     def confusion_nn(self):
         
@@ -142,7 +142,7 @@ class VisualizerGraphs:
         axes[1].set_xlabel("Predição")
  
         plt.tight_layout()
-        fig._save(FIGURES_DIR / "grafico_redeNeural.png", dpi=150, bbox_inches="tight", facecolor="#fff")
+        fig.savefig(FIGURES_DIR / "grafico_redeNeural.png", dpi=150, bbox_inches="tight", facecolor="#fff")
 
     def comparison(self):
         
@@ -170,33 +170,32 @@ class VisualizerGraphs:
         ax.legend(fontsize=10)
  
         for bar in (*bar1, *bar2):
-            cor = '#2563EB' if bar in bar1 else '#'
+            cor = '#2563EB' if bar in bar1 else '#DC2626'
             ax.text(bar.get_x() + bar.get_width() / 2.0, bar.get_height() + 0.005,
                     f"{bar.get_height():.3f}", ha="center", va="bottom",
                     fontsize=9, fontweight="bold", color=cor)
  
         plt.tight_layout()
-        self._save(fig, "comparacao.png")
+        fig.savefig(FIGURES_DIR / "comparacao.png", dpi=150, bbox_inches="tight", facecolor="#fff")
         
     def generate_all(self):
 
         FIGURES_DIR.mkdir(parents=True, exist_ok=True)
-        self._setup_style()
  
         graphs = [
-            self.target_distribution,
-            self.feature_correlation,
+            self.distribuition,
+            self.correlation,
             self.decision_tree,
-            self.feature_importance,
-            self.confusion_matrix_tree,
-            self.neural_network_training,
-            self.model_comparison,
+            self.confusion_tree,
+            self.confusion_nn,
+            self.comparison,
         ]
  
-        bar = tqdm(graphs, desc="    Gerando gráficos", ncols=70,
+        bar = tqdm(graphs, desc="Gerando gráficos", ncols=70,
                      bar_format="{desc} {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}")
         for generate in bar:
             try:
                 generate()
             except Exception as err:
                 print(f"\n    Erro ao gerar {generate.__name__}: {err}")
+                
