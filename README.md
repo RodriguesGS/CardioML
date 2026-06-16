@@ -1,4 +1,6 @@
-# Disciplina de Inteligência Artificial , Professor Munif , Unicesumar 2026
+Disciplina de Inteligência Artificial, Professor Munif, Unicesumar 2026
+
+# Árvore de Decisão vs Rede Neural MLP
 
 Este repositório contém o trabalho referente ao 2° bimestre da disciplina de Inteligência Artificial. O projeto treina e compara dois modelos de IA, sendo eles: **Árvore de Decisão** e **Rede Neural MLP**. Os modelos foram treinados para prever se um paciente possui doença cardíaca a partir de seus dados clínicos a partir do **dataset** [Heart Disease](https://archive.ics.uci.edu/dataset/45/heart+disease).
 
