@@ -2,12 +2,15 @@ from src.pipeline import Pipeline
 
 
 def main():
-    print("=" * 60)
-    print("      Trabalho de Inteligência Artificial - 2026")
-    print("=" * 60)
+    print('=' * 60)
+    print('       Trabalho de Inteligência Artificial - 2026')
+    print('=' * 60)
+    
+    pipeline = Pipeline()
 
     print("\n[1/4] Preparando dados...")
-    pipeline = Pipeline()
+    dataset = pipeline.prepare_data()
+    counts = dataset.df["target"].value_counts()
 
     print("\n[2/4] Treinando modelos...")
     results = pipeline.run()

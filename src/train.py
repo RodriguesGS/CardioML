@@ -2,6 +2,8 @@ import joblib
 
 from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
+from tqdm import tqdm
+
 from .config import MODELS_DIR
 
 class ModelTrain:
@@ -9,7 +11,6 @@ class ModelTrain:
     def __init__(self, dataset):
         
         self.dataset = dataset
-        
         self.tree = None
         self.nn = None
         
@@ -43,6 +44,23 @@ class ModelTrain:
         
         self.nn = model
         return model
+    
+    def train_all(self):
+        
+        steps = [
+            ("Árvore de Decisão", self.train_tree),
+            ("Rede Neural MLP", self.train_nn),
+        ]
+        
+        progress = tqdm(steps, ncols=70,
+                            bar_format="{desc} {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}"
+                        )
+        
+        for name, train in progress:
+            progress.set_description(f' Treinando {name:<20}')
+            train()
+            
+        return {'tree': self.tree, 'nn': self.nn}
         
     def save_models(self):
         
